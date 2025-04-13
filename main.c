@@ -1,4 +1,9 @@
-#include "shared.c"
+#include "ui.c"
+
+void quit() {
+    SDL_Quit();
+    exit(0);
+}
 
 int main() {
     initialisation();
@@ -10,31 +15,32 @@ int main() {
         // Gestion des événements
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
-                case SDL_EVENT_QUIT:
-                    // L'utilisateur a cliqué sur le bouton de fermeture
+                case SDL_QUIT:
                     running = 0;
+                    return 0;
+                case SDL_MOUSEBUTTONDOWN:
+                    clickStart.x = event.motion.x;
+                    clickStart.y = event.motion.y;
                     break;
-
-                case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-                    // Une requête de fermeture a été envoyée
-                    running = 0;
+                case SDL_MOUSEBUTTONUP:
+                    clickEnd.x = event.motion.x;
+                    clickEnd.y = event.motion.y;
+                    isClick = 1;
                     break;
-
-                default:
+                case SDL_MOUSEMOTION:
+                    mousePos.x = event.motion.x;
+                    mousePos.y = event.motion.y;
                     break;
             }
         }
 
-        // Effacer l'écran (remplir avec une couleur noire)
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        button(
+            (SDL_Rect){100, 100, 200, 50},
+            "Quitter",
+            (SDL_Color){255, 0, 0, 255},
+            quit
+        );
 
-        // Dessiner ici si nécessaire
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-        SDL_FRect rect = {100, 100, 150, 150};
-        SDL_RenderFillRect(renderer, &rect);
-
-        // Mettre à jour l'affichage
         SDL_RenderPresent(renderer);
     }
 
