@@ -1,13 +1,26 @@
+#define _POSIX_C_SOURCE 200809L // Active les fonctionnalités POSIX modernes
+#define FONT "UbuntuMono.ttf"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
-
-#define FONT "UbuntuMono.ttf"
+#include <time.h>
+#include <math.h>
 
 typedef struct {
     int x;
     int y;
 } Coordinate;
+
+struct ptm {
+    int year;
+    int month;
+    int day;
+    int hour;
+    int min;
+    int sec;
+    long ns;
+};
 
 int isClick;
 Coordinate clickStart;
@@ -64,4 +77,25 @@ int initialisation() {
     }
 
     return 0;
+}
+
+struct ptm getTime() {
+    struct timespec ts;
+    clock_gettime(CLOCK_REALTIME, &ts);
+
+    time_t t = ts.tv_sec;
+    struct tm local_time;
+    localtime_r(&t, &local_time);
+
+    struct ptm result = {
+        .year = local_time.tm_year + 1900,
+        .month = local_time.tm_mon + 1,
+        .day = local_time.tm_mday,
+        .hour = local_time.tm_hour,
+        .min = local_time.tm_min,
+        .sec = local_time.tm_sec,
+        .ns = ts.tv_nsec
+    };
+
+    return result;
 }

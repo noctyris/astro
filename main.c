@@ -1,4 +1,5 @@
 #include "ui.c"
+#include "calculus.c"
 
 void quit() {
     SDL_Quit();
@@ -33,13 +34,8 @@ int main() {
                     break;
             }
         }
-
-        button(
-            (SDL_Rect){100, 100, 200, 50},
-            "Quitter",
-            (SDL_Color){255, 0, 0, 255},
-            quit
-        );
+        
+        struct ptm current_time = getTime(); // Récupère le temps avec nanosecondes
 
         SDL_RenderPresent(renderer);
     }

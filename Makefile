@@ -3,7 +3,7 @@ EXEC := astro
 
 CC	= gcc
 CFLAGS	= -Wall -Wextra -std=c99
-LDFLAGS	= -lSDL2 -lSDL2_ttf
+LDFLAGS	= -lSDL2 -lSDL2_ttf -lm -lrt
 
 run: $(FILES)
 	$(CC) main.c -o $(EXEC) $(LDFLAGS) $(CFLAGS)
