@@ -30,7 +30,7 @@ Coordinate mousePos;
 SDL_Window *window;
 SDL_Renderer *renderer;
 SDL_Event event;
-TTF_Font *fontS, *fontL;
+TTF_Font *fontS, *fontL, *fontXS;
 
 int initialisation() {
     // Initialisation de SDL
@@ -70,8 +70,9 @@ int initialisation() {
 
     fontS = TTF_OpenFont(FONT, 20);
     fontL = TTF_OpenFont(FONT, 30);
+    fontXS = TTF_OpenFont(FONT, 12);
 
-    if (!fontS && !fontL){
+    if (!fontS && !fontL && !fontXS) {
         printf("Failed to load font: %s\n", TTF_GetError());
         return EXIT_FAILURE;
     }
